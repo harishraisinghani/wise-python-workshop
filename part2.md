@@ -325,8 +325,10 @@ print('Average yearly return is: ' +
 Your turn to explore:
 
 * Go through the Moving Average Trading Strategy exercise again, but this time with the following twist:
-    1. Using https://www.investopedia.com/ask/answers/122414/what-are-most-common-periods-used-creating-moving-average-ma-lines.asp as the reference for this strategy, first create a 50 day and 200 day moving averages
+    1. First create a 50 day and 200 day moving averages
 
     2. In the previous exercise, we looked at price vs. 20 day moving average to come up with our trading positions. Now, we will look at the 50 day vs. 200 day moving average to come up with our trading positions. When the 50 day MA price > 200 day MA price, we buy and hold. When 50 day MA price < 200 day MA price, we sell and not hold. 
 
     3. Calculate the total and average yearly portfolio returns using this strategy.
+
+Reference for this strategy: https://www.investopedia.com/ask/answers/122414/what-are-most-common-periods-used-creating-moving-average-ma-lines.asp
