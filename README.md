@@ -1,4 +1,5 @@
-# Python with Google Finance API, pandas & matplotlib
+# Python with Google Finance API, Pandas & Matplotlib
+This workshop is an adaptation of the posts by Gerogios Efstathopoulos and can be found here: https://www.learndatasci.com/tutorials/python-finance-part-yahoo-finance-api-pandas-matplotlib/
 
 ### Setting up Google Finance API
 Investors Exchange (IEX) at https://iexcloud.io/ offers a free web-based API to access financial data such as historical and current stock ticker information. You will need to setup an account (which requires an email validation) in order to obtain an API Key which we will use in our Python code. 
@@ -412,7 +413,7 @@ plt.show()
 
 Note the EMA curve smooths out the price fluctuations just like the SMA curve, but is more responsive to price trend changes.
 
-### MA Strategy 1
+### MA Strategy Implementation
 
 Here, we are going to take advantage of the fact that a moving average timeseries (whether SMA or EMA) lags the actual price behaviour. Our strategy will be to use the crossing of the moving average an actual price timeseries as potential trading signals:
 
