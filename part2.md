@@ -32,6 +32,8 @@ $$
 
 Why do we use the log-return timeseries?
 
+Well say if we wanted to sum the returns over 5 intervals, will adding the relative returns over those 5 intervals give us the total return over the period? No - relative returns are not additive!
+
 1. *Log-returns* are additive and this makes it easy to sum up time-series data:
 
     >  $r(t_1) + r(t_2) = log(\frac {p(t_1)} {p(t_0)}) + log(\frac {p(t_2)} {p(t_1)}) = log(\frac {p(t_2)} {p(t_0)}) $
@@ -68,9 +70,27 @@ $$
 c_{relative}(t) = e^{c(t)} - 1
 $$
 
-So let us plot both the relative and log returns:
+So let us plot both the relative and log returns, first with one ticker:
 ```
-# Plot relative and log returns
+log_returns_msft = log_returns['MSFT']
+cumsum_log_returns_msft = log_returns_msft.cumsum()
+cumsum_relative_returns_msft = np.exp(cumsum_log_returns_msft) - 1
+
+
+# Plot relative and log returns for MSFT
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16,12))
+
+ax1.plot(cumsum_log_returns_msft.index, cumsum_log_returns_msft, label='MSFT')
+ax1.set_ylabel('Cumulative log returns')
+ax1.legend(loc='best')
+
+ax2.plot(cumsum_relative_returns_msft.index, 100*(cumsum_relative_returns_msft), label='MSFT')
+ax2.set_ylabel('Total relative returns (%)')
+ax2.legend(loc='best')
+plt.show()
+```
+```
+# Plot relative and log returns for all tickers
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16,12))
 
 for c in log_returns:
@@ -110,7 +130,7 @@ date
 
 Then let us create equal weights for all 3 stocks (i.e. a weighting of $1/3$) using the same index and columns as our returns vector.
 ```
-weights_vector = pd.DataFrame(1 / 3, index=last_day.index, columns=last_day.columns)
+weights_vector = pd.DataFrame([[1/3, 1/3, 1/3]], index=last_day.index, columns=last_day.columns)
 ```
 So what we want to do is multiply the weight of each stock times the return for that stock to determine how much we would actually get for a single day. In order to do this multiplication we simply do:. 
 
@@ -136,7 +156,7 @@ So this is the portfolio return on a single day, from the previous day, using ou
 Now, let us do this for the entire period between our start and end dates:
 
 ```
-weights_matrix = pd.DataFrame(1 / 3, index=close_data.index, columns=close_data.columns)
+weights_matrix = pd.DataFrame([[1/3, 1/3, 1/3]], index=close_data.index, columns=close_data.columns)
 portfolio_daily_log_returns = (weights_matrix * log_returns).sum(axis=1)
 >>> portfolio_daily_log_returns.tail()
 date
@@ -332,3 +352,18 @@ Your turn to explore:
     3. Calculate the total and average yearly portfolio returns using this strategy.
 
 Reference for this strategy: https://www.investopedia.com/ask/answers/122414/what-are-most-common-periods-used-creating-moving-average-ma-lines.asp
+
+Quant competition:
+
+* IAU - Gold Trust
+* IXC - Global Energy
+* IXG - Global Financials
+* IXJ - Global Healthcare
+* IXN - Global Tech
+
+Come up with best weightings using at least 2 of these 5 ETFs
+
+Using non-constant weights:
+```
+weights = pd.DataFrame([[1/3, 1/4, 5/12]], index=close_data.index, columns=close_data.columns)
+```
